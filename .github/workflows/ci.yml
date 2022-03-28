@@ -1,0 +1,76 @@
+name: Testing Laravel with PostgreSQL
+on:
+  push:
+    paths:
+      - '**.php'
+      - 'phpunit.xml'
+      - '.github/workflows/ci.yml'
+      - 'composer.lock'
+  pull_request:
+    paths:
+      - '**.php'
+      - 'phpunit.xml'
+      - '.github/workflows/ci.yml'
+      - 'composer.lock'
+jobs:
+  phpunit:
+    runs-on: ubuntu-latest
+    container:
+      image: kirschbaumdevelopment/laravel-test-runner:8.1
+    services:
+      postgres:
+        image: postgres:13.5
+        env:
+          POSTGRES_USER: sail
+          POSTGRES_PASSWORD: password
+          POSTGRES_DB: finalchallenge
+        ports:
+          - 5432:5432
+        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
+    steps:
+      - uses: actions/checkout@v1
+        with:
+          fetch-depth: 1
+      - name: Get Composer Cache Directory
+        id: composer-cache
+        run: |
+          echo "::set-output name=dir::$(composer config cache-files-dir)"
+      - uses: actions/cache@v1
+        with:
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-composer-
+      - name: Install composer dependencies
+        run: |
+          composer install --no-scripts
+      - name: Prepare Laravel Application
+        run: |
+          cp .env.ci .env
+          php artisan key:generate
+      - name: Install front-end dependencies
+        run: |
+          npm install
+          npm run dev
+      - name: Show Laravel versions
+        run: php artisan --version
+      - name: Show dir
+        run: pwd
+      - name: PHP Version
+        run: php --version
+      - name: Run Testsuite
+        run: vendor/bin/phpunit
+        # Set environment
+        env:
+          DB_CONNECTION: pgsql
+          DB_HOST: postgres
+          DB_PORT: 5432
+          DB_DATABASE: finalchallenge
+          DB_USERNAME: sail
+          DB_PASSWORD: password
+      - name: Execute Code Static Analysis (PHP Stan + Larastan)
+        run: |
+          vendor/bin/phpstan analyse --level=4 --no-progress
+    # Example: Deploy to Laravel Forge
+    # - name: Deploy to Laravel Forge
+    #   run: curl ${{ secrets.FORGE_STAGING_WEBHOOK }}
