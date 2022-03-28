@@ -59,7 +59,7 @@ jobs:
       - name: PHP Version
         run: php --version
       - name: Run Testsuite
-        run: vendor/bin/pest
+        run: vendor/bin/phpunit
         # Set environment
         env:
           DB_CONNECTION: pgsql
