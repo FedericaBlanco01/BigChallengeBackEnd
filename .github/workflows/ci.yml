@@ -48,10 +48,6 @@ jobs:
         run: |
           cp .env.ci .env
           php artisan key:generate
-      - name: Install front-end dependencies
-        run: |
-          npm install
-          npm run dev
       - name: Show Laravel versions
         run: php artisan --version
       - name: Show dir
@@ -62,7 +58,7 @@ jobs:
         run: vendor/bin/phpunit
         # Set environment
         env:
-          DB_CONNECTION: pgsql
+         DB_CONNECTION: pgsql
           DB_HOST: postgres
           DB_PORT: 5432
           DB_DATABASE: finalchallenge
