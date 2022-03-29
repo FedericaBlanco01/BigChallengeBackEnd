@@ -40,7 +40,7 @@ class RegisterUserTest extends TestCase
             ['empty name'=>[
                 'name'=> '',
                 'password'=> '7488.Light',
-                'email'=> 'federica@lightit.io', ]],
+                'email'=> 'federica@light.io', ]],
             ['empty password'=>[
                 'name'=> 'Federica',
                 'password'=> '',
