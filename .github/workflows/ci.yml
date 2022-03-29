@@ -59,11 +59,11 @@ jobs:
         # Set environment
         env:
          DB_CONNECTION: pgsql
-          DB_HOST: postgres
-          DB_PORT: 5432
-          DB_DATABASE: finalchallenge
-          DB_USERNAME: sail
-          DB_PASSWORD: password
+         DB_HOST: postgres
+         DB_PORT: 5432
+         DB_DATABASE: finalchallenge
+         DB_USERNAME: sail
+         DB_PASSWORD: password
       - name: Execute Code Static Analysis (PHP Stan + Larastan)
         run: |
           vendor/bin/phpstan analyse --level=4 --no-progress

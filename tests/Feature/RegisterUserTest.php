@@ -9,7 +9,7 @@ class RegisterUserTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function test_register_user()
+    public function test_register_user_successfully()
     {
         $response = $this->postJson('/api/registerUser', [
             'name'=> 'Federica',
@@ -26,7 +26,7 @@ class RegisterUserTest extends TestCase
     /**
      * @dataProvider emptyFieldProvider
      **/
-    public function test_empty_field($user)
+    public function test_empty_field_registration_user($user)
     {
         $response = $this->postJson('/api/registerUser', $user);
 
