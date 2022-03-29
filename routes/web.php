@@ -1,7 +1,5 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\UserRegistrationController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -12,4 +10,3 @@ use App\Http\Controllers\UserRegistrationController;
 | contains the "web" middleware group. Now create something great!
 |
 */
-

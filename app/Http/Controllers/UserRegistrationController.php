@@ -13,7 +13,7 @@ class UserRegistrationController
         $user = new User([
             'name' => $request->input('name'),
             'password' => $request->input('password'),
-            'email' => $request->input('email')
+            'email' => $request->input('email'),
         ]);
         $user->save();
 
