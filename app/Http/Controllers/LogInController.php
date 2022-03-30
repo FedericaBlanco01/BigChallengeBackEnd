@@ -23,7 +23,7 @@ class LogInController
         return response()->json([
             'message' => 'User loggedIn successfully',
             'status' => 200,
-            'token' => $user->createToken($request->email)->plainTextToken,
+            'token' => $user->createToken($request->input('email'))->plainTextToken,
         ]);
     }
 }
