@@ -20,7 +20,6 @@ class UserRegistrationController
 
         return response()->json([
             'message' => 'User was created successfully!',
-            'new_user' => $user,
         ]);
     }
 }
