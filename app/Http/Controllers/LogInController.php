@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\UserLogInRequest;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Hash;
 
 class LogInController
 {
@@ -13,7 +14,7 @@ class LogInController
         $user = User::where('email', $request->input('email'))->first();
 
         if (isset($user)) {
-            if ($user->password === $request->input('password')) {
+            if (Hash::check($request->input('password'), $user->password)) {
                 return response()->json([
                     'message' => 'User loggedIn successfully',
                     'status' => 200,

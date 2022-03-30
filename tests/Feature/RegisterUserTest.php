@@ -19,7 +19,6 @@ class RegisterUserTest extends TestCase
         $response->assertSuccessful();
         $this->assertDatabaseHas('users', [
             'name'=> 'Federica',
-            'password'=> '7488.Light',
             'email'=> 'federica@lightit.io', ]);
     }
 
