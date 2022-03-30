@@ -6,6 +6,7 @@ use App\Http\Requests\UserLogInRequest;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\ValidationException;
 
 class LogInController
 {
@@ -13,18 +14,16 @@ class LogInController
     {
         $user = User::where('email', $request->input('email'))->first();
 
-        if (isset($user)) {
-            if (Hash::check($request->input('password'), $user->password)) {
-                return response()->json([
-                    'message' => 'User loggedIn successfully',
-                    'status' => 200,
-                    'token'=> $user->createToken($request->email)->plainTextToken,
-                ]);
-            }
+        if (! isset($user) || ! Hash::check($request->input('password'), $user->password)) {
+            throw ValidationException::withMessages([
+                'email' => ['The provided credentials are incorrect.'],
+            ]);
         }
 
         return response()->json([
-            'status'=>422,
-            'message' => 'User not found', ]);
+            'message' => 'User loggedIn successfully',
+            'status' => 200,
+            'token' => $user->createToken($request->email)->plainTextToken,
+        ]);
     }
 }

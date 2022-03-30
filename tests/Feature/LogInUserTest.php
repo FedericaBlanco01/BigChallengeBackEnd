@@ -33,10 +33,9 @@ class LogInUserTest extends TestCase
             'password'=> Hash::make('7488.Light'),
             'email' =>  'federica@lightit.io', ]);
 
-        $response->assertStatus(200);   //porque yo le mando la response onda sale bien
+        $response->assertStatus(422);
         $response->assertJson([
-            'status'=>422,
-            'message' => 'User not found',
+            'message' => 'The provided credentials are incorrect.',
         ]);
     }
 }
