@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use Database\Seeders\RolesSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -11,15 +12,24 @@ class RegisterUserTest extends TestCase
 
     public function test_register_user_successfully()
     {
+        $this->seed(RolesSeeder::class);
+
         $response = $this->postJson('/api/registerUser', [
             'name'=> 'Federica',
             'password'=> '7488.Light',
-            'email'=> 'federica@lightit.io', ]);
+            'email'=> 'federica@lightit.io',
+            'role' => 'doctor',
+        ]);
 
         $response->assertSuccessful();
         $this->assertDatabaseHas('users', [
             'name'=> 'Federica',
             'email'=> 'federica@lightit.io', ]);
+        $this->assertDatabaseCount('model_has_roles', 1);
+        $this->assertDatabaseHas('model_has_roles', [
+            'role_id' => 1,
+            'model_id' => 1,
+        ]);
     }
 
     /**
