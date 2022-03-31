@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\LogInController;
+use App\Http\Controllers\LogOutController;
 use App\Http\Controllers\UserRegistrationController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -18,6 +19,10 @@ use Illuminate\Support\Facades\Route;
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
+});
+
+Route::middleware('auth:sanctum')->group(function () {
+    Route::post('/logoutUser', LogOutController::class);
 });
 
 Route::post('/registerUser', UserRegistrationController::class);
