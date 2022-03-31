@@ -26,10 +26,6 @@ class RegisterUserTest extends TestCase
             'name'=> 'Federica',
             'email'=> 'federica@lightit.io', ]);
         $this->assertDatabaseCount('model_has_roles', 1);
-        $this->assertDatabaseHas('model_has_roles', [
-            'role_id' => 1,
-            'model_id' => 1,
-        ]);
     }
 
     /**

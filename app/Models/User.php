@@ -43,7 +43,7 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public static function createRoles()
+    public static function createRoles(): void
     {
         $doctor = Role::create(['name' => 'doctor']);
         $patient = Role::create(['name' => 'patient']);

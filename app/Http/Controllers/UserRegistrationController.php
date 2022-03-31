@@ -18,7 +18,7 @@ class UserRegistrationController
         ]);
         $user->save();
 
-        $user->assignRole(strtolower($request->input('role')));
+        $user->assignRole($request->input('role'));
 
         return response()->json([
             'message' => 'User was created successfully!',
