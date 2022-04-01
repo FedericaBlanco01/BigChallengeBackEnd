@@ -2,8 +2,11 @@
 
 namespace Tests\Feature;
 
+use App\Models\User;
 use Database\Seeders\RolesSeeder;
+use Illuminate\Auth\Notifications\VerifyEmail;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Notification;
 use Tests\TestCase;
 
 class RegisterUserTest extends TestCase
@@ -12,6 +15,7 @@ class RegisterUserTest extends TestCase
 
     public function test_register_user_successfully()
     {
+        Notification::fake();
         $this->seed(RolesSeeder::class);
 
         $response = $this->postJson('/api/registerUser', [
@@ -26,6 +30,14 @@ class RegisterUserTest extends TestCase
             'name'=> 'Federica',
             'email'=> 'federica@lightit.io', ]);
         $this->assertDatabaseCount('model_has_roles', 1);
+
+        $user = User::where('email', 'federica@lightit.io')->first();
+        $this->assertTrue($user->hasRole('doctor'));
+
+        Notification::assertSentTo(
+            [$user],
+            VerifyEmail::class
+        );
     }
 
     /**
