@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\UserRegistrationRequest;
 use App\Models\User;
+use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Hash;
 
@@ -19,6 +20,8 @@ class UserRegistrationController
         $user->save();
 
         $user->assignRole($request->input('role'));
+
+        event(new Registered($user));
 
         return response()->json([
             'message' => 'User was created successfully!',
