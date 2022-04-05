@@ -9,11 +9,11 @@ class Submission extends Model
 {
     use HasFactory;
 
-    public const PENDING_STATUS = 'Pending';
+    public const PENDING_STATUS = 'pending';
 
-    public const INPROGRESS_STATUS = 'In progress';
+    public const INPROGRESS_STATUS = 'in_progress';
 
-    public const DONE_STATUS = 'Done';
+    public const DONE_STATUS = 'done';
 
     protected $guarded = [];
 
