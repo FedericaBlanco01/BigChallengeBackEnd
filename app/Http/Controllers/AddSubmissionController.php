@@ -13,13 +13,12 @@ class AddSubmissionController
     {
         $submission = new Submission([
             'patient_id'=>Auth::user()->id,
-            'doctor_id'=>null,
             'weight'=>$request->input('weight'),
             'height'=>$request->input('height'),
             'observations'=>$request->input('observations'),
             'symptoms'=>$request->input('symptoms'),
             'file_path'=>'',
-            'status'=>'pending',
+            'status'=> Submission::PENDING_STATUS,
         ]);
         $submission->save();
 

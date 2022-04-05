@@ -9,6 +9,12 @@ class Submission extends Model
 {
     use HasFactory;
 
+    public const PENDING_STATUS = 'Pending';
+
+    public const INPROGRESS_STATUS = 'In progress';
+
+    public const DONE_STATUS = 'Done';
+
     protected $guarded = [];
 
     public function doctor()
