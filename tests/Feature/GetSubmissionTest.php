@@ -24,9 +24,7 @@ class GetSubmissionTest extends TestCase
             'status'=> 'pending',
         ]);
 
-        $response = $this->getJson('/api/getSubmission', [
-            'status' => '',
-        ]);
+        $response = $this->getJson('/api/getSubmission');
 
         $response->assertSuccessful();
         $response->assertJson([
@@ -51,15 +49,68 @@ class GetSubmissionTest extends TestCase
             'status'=> Submission::INPROGRESS_STATUS, ]);
 
         $response = $this->getJson(
-            '/api/getSubmission',
-            ['status'=> Submission::INPROGRESS_STATUS]
+            '/api/getSubmission'.'?status='.Submission::INPROGRESS_STATUS
         );
 
         $response->assertSuccessful();
         $response->assertJson([
             'message' => 'Success! Got all the requested submissions',
         ]);
-        dd($response);
+
+        $response->assertJsonCount(1, 'submissions');
+    }
+
+    public function test_get_submission_doctor_without_filters_successfully()
+    {
+        $this->seed(RolesSeeder::class);
+        $user = User::factory()->create();
+        $user->assignRole(User::DOCTOR_ROLE);
+        Sanctum::actingAs($user);
+
+        Submission::factory()->count(2)->sequence(
+            [
+            'patient_id'=>1,
+            'status'=> Submission::PENDING_STATUS,
+        ],
+            [
+            'patient_id'=>2,
+            'status'=> Submission::INPROGRESS_STATUS,
+            ]
+        )->create();
+
+        $response = $this->getJson('/api/getSubmission');
+
+        $response->assertSuccessful();
+        $response->assertJson([
+            'message' => 'Success! Got all the requested submissions',
+        ]);
+        $response->assertJsonCount(1, 'submissions');
+    }
+
+    public function test_get_submission_doctor_with_filter_successfully()
+    {
+        $this->seed(RolesSeeder::class);
+        $user = User::factory()->create();
+        $user->assignRole(User::DOCTOR_ROLE);
+        Sanctum::actingAs($user);
+
+        Submission::factory()->count(2)->sequence(
+            [
+                'patient_id'=>1,
+                'status'=> Submission::PENDING_STATUS,
+            ],
+            [
+                'patient_id'=>2,
+                'status'=> Submission::PENDING_STATUS,
+            ]
+        )->create();
+
+        $response = $this->getJson('/api/getSubmission?patient=1');
+
+        $response->assertSuccessful();
+        $response->assertJson([
+            'message' => 'Success! Got all the requested submissions',
+        ]);
         $response->assertJsonCount(1, 'submissions');
     }
 }

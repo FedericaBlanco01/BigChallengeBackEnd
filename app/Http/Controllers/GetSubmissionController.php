@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Submission;
+use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -18,8 +19,8 @@ class GetSubmissionController
 
         $submissions = Submission::with(['doctor', 'patient']);
 
-        if ($user->hasRole('patient')) {
-            if (isset($status)) {
+        if ($user->hasRole(User::PATIENT_ROLE)) {
+            if ($request->filled('status')) {
                 $submissions = $submissions->where('status', $status);
             }
 
