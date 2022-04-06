@@ -22,7 +22,7 @@ class Submission extends Model
         return $this->belongsTo(User::class, 'doctor_id');
     }
 
-    public function patiente()
+    public function patient()
     {
         return $this->belongsTo(User::class, 'patient_id');
     }

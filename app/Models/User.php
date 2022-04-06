@@ -19,6 +19,7 @@ class User extends Authenticatable implements MustVerifyEmail
      *
      * @var array<int, string>
      */
+
     protected $fillable = [
         'name',
         'email',
@@ -43,10 +44,13 @@ class User extends Authenticatable implements MustVerifyEmail
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+    public const PATIENT_ROLE = 'patient';
+
+    public const DOCTOR_ROLE = 'doctor';
 
     public static function createRoles(): void
     {
-        $doctor = Role::create(['name' => 'doctor']);
-        $patient = Role::create(['name' => 'patient']);
+        Role::create(['name' => self::DOCTOR_ROLE]);
+        Role::create(['name' => self::PATIENT_ROLE]);
     }
 }
