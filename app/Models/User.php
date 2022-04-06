@@ -19,7 +19,6 @@ class User extends Authenticatable implements MustVerifyEmail
      *
      * @var array<int, string>
      */
-
     protected $fillable = [
         'name',
         'email',
@@ -44,6 +43,7 @@ class User extends Authenticatable implements MustVerifyEmail
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
     public const PATIENT_ROLE = 'patient';
 
     public const DOCTOR_ROLE = 'doctor';
