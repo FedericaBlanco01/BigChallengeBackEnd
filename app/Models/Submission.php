@@ -17,12 +17,12 @@ class Submission extends Model
 
     protected $guarded = [];
 
-    public function doctor()
+    public function doctor(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(User::class, 'doctor_id');
     }
 
-    public function patiente()
+    public function patient(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(User::class, 'patient_id');
     }

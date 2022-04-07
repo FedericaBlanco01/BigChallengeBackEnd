@@ -20,10 +20,10 @@ class SubmissionFactory extends Factory
         return [
             'patient_id' => User::factory(),
             'doctor_id' => User::factory(),
-            'weigth' => $this->faker->numberBetween(40, 250),
-            'heigth' => $this->faker->numberBetween(150, 210),
+            'weight' => $this->faker->numberBetween(40, 250),
+            'height' => $this->faker->numberBetween(150, 210),
             'observations' => $this->faker->text(),
-            'symptons' => $this->faker->text(),
+            'symptoms' => $this->faker->text(),
             'file_path' => $this->faker->text(),
             'status' => $this->faker->word(),
         ];

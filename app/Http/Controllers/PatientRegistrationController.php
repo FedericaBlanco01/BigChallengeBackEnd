@@ -8,7 +8,7 @@ use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Hash;
 
-class UserRegistrationController
+class PatientRegistrationController
 {
     public function __invoke(UserRegistrationRequest $request): JsonResponse
     {
@@ -19,12 +19,12 @@ class UserRegistrationController
         ]);
         $user->save();
 
-        $user->assignRole($request->input('role'));
+        $user->assignRole(User::PATIENT_ROLE);
 
         event(new Registered($user));
 
         return response()->json([
-            'message' => 'User was created successfully!',
+            'message' => 'Patient was created successfully!',
         ]);
     }
 }

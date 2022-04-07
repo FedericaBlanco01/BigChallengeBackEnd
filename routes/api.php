@@ -1,10 +1,12 @@
 <?php
 
 use App\Http\Controllers\AddSubmissionController;
+use App\Http\Controllers\DoctorRegistrationController;
 use App\Http\Controllers\EmailVerificationController;
+use App\Http\Controllers\GetSubmissionController;
 use App\Http\Controllers\LogInController;
 use App\Http\Controllers\LogOutController;
-use App\Http\Controllers\UserRegistrationController;
+use App\Http\Controllers\PatientRegistrationController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -23,12 +25,14 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::post('/registerUser', UserRegistrationController::class);
+Route::post('/registerDoctor', DoctorRegistrationController::class);
+Route::post('/registerPatient', PatientRegistrationController::class);
 Route::post('/loginUser', LogInController::class);
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::post('/logoutUser', LogOutController::class);
     Route::post('/addSubmission', AddSubmissionController::class);
+    Route::get('/getSubmission', GetSubmissionController::class);
 });
 Route::get('/email/verify/{id}/{hash}', EmailVerificationController::class)
     ->middleware(['auth:sanctum', 'signed'])

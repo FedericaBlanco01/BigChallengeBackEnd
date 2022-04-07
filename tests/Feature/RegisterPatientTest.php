@@ -9,20 +9,19 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Notification;
 use Tests\TestCase;
 
-class RegisterUserTest extends TestCase
+class RegisterPatientTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function test_register_user_successfully()
+    public function test_register_successfully()
     {
         Notification::fake();
         $this->seed(RolesSeeder::class);
 
-        $response = $this->postJson('/api/registerUser', [
+        $response = $this->postJson('/api/registerPatient', [
             'name'=> 'Federica',
             'password'=> '7488.Light',
             'email'=> 'federica@lightit.io',
-            'role' => 'doctor',
         ]);
 
         $response->assertSuccessful();
@@ -32,7 +31,7 @@ class RegisterUserTest extends TestCase
         $this->assertDatabaseCount('model_has_roles', 1);
 
         $user = User::where('email', 'federica@lightit.io')->first();
-        $this->assertTrue($user->hasRole('doctor'));
+        $this->assertTrue($user->hasRole('patient'));
 
         Notification::assertSentTo(
             [$user],
@@ -45,7 +44,7 @@ class RegisterUserTest extends TestCase
      **/
     public function test_empty_field_registration_user($user)
     {
-        $response = $this->postJson('/api/registerUser', $user);
+        $response = $this->postJson('/api/registerPatient', $user);
 
         $response->assertStatus(422);
         $this->assertDatabaseMissing('users', $user);
