@@ -116,7 +116,7 @@ class GetSubmissionTest extends TestCase
             ]
         )->create();
 
-        $response = $this->getJson('/api/getSubmission?patient=2');
+        $response = $this->getJson('/api/getSubmission?patient='.$patient2->id);
 
         $response->assertSuccessful();
         $response->assertJson([
