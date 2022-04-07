@@ -65,15 +65,19 @@ class GetSubmissionTest extends TestCase
         $this->seed(RolesSeeder::class);
         $user = User::factory()->create();
         $user->assignRole(User::DOCTOR_ROLE);
+
+        $patient = User::factory()->create();
+        $patient->assignRole(User::PATIENT_ROLE);
+
         Sanctum::actingAs($user);
 
         Submission::factory()->count(2)->sequence(
             [
-            'patient_id'=>1,
+            'patient_id'=> $patient->id,
             'status'=> Submission::PENDING_STATUS,
         ],
             [
-            'patient_id'=>2,
+            'patient_id'=>$patient->id,
             'status'=> Submission::INPROGRESS_STATUS,
             ]
         )->create();
@@ -92,20 +96,27 @@ class GetSubmissionTest extends TestCase
         $this->seed(RolesSeeder::class);
         $user = User::factory()->create();
         $user->assignRole(User::DOCTOR_ROLE);
+
+        $patient = User::factory()->create();
+        $patient->assignRole(User::PATIENT_ROLE);
+
+        $patient2 = User::factory()->create();
+        $patient2->assignRole(User::PATIENT_ROLE);
+
         Sanctum::actingAs($user);
 
         Submission::factory()->count(2)->sequence(
             [
-                'patient_id'=>1,
+                'patient_id'=>$patient->id,
                 'status'=> Submission::PENDING_STATUS,
             ],
             [
-                'patient_id'=>2,
+                'patient_id'=>$patient2->id,
                 'status'=> Submission::PENDING_STATUS,
             ]
         )->create();
 
-        $response = $this->getJson('/api/getSubmission?patient=1');
+        $response = $this->getJson('/api/getSubmission?patient=2');
 
         $response->assertSuccessful();
         $response->assertJson([
