@@ -19,7 +19,7 @@ class AddSubmissionTest extends TestCase
         $user->assignRole('patient');
         Sanctum::actingAs($user);
 
-        $response = $this->postJson('/api/addSubmission', [
+        $response = $this->postJson('/api/submissions/add', [
             'weight' => 60,
             'height' => 173,
             'observations' => 'diabetes type 1',
@@ -48,7 +48,7 @@ class AddSubmissionTest extends TestCase
         $user->assignRole('patient');
         Sanctum::actingAs($user);
 
-        $response = $this->postJson('/api/addSubmission', $data);
+        $response = $this->postJson('/api/submissions/add', $data);
 
         $response->assertStatus(422);
         $this->assertDatabaseMissing('submissions', $data);
