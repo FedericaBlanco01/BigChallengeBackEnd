@@ -24,7 +24,7 @@ class GetSubmissionTest extends TestCase
             'status'=> 'pending',
         ]);
 
-        $response = $this->getJson('/api/getSubmission');
+        $response = $this->getJson('/api/submissions');
 
         $response->assertSuccessful();
         $response->assertJson([
@@ -49,7 +49,7 @@ class GetSubmissionTest extends TestCase
             'status'=> Submission::INPROGRESS_STATUS, ]);
 
         $response = $this->getJson(
-            '/api/getSubmission'.'?status='.Submission::INPROGRESS_STATUS
+            '/api/submissions'.'?status='.Submission::INPROGRESS_STATUS
         );
 
         $response->assertSuccessful();
@@ -82,7 +82,7 @@ class GetSubmissionTest extends TestCase
             ]
         )->create();
 
-        $response = $this->getJson('/api/getSubmission');
+        $response = $this->getJson('/api/submissions');
 
         $response->assertSuccessful();
         $response->assertJson([
@@ -116,7 +116,7 @@ class GetSubmissionTest extends TestCase
             ]
         )->create();
 
-        $response = $this->getJson('/api/getSubmission?patient='.$patient2->id);
+        $response = $this->getJson('/api/submissions?patient='.$patient2->id);
 
         $response->assertSuccessful();
         $response->assertJson([

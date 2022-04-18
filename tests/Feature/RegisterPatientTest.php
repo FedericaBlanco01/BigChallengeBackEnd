@@ -18,7 +18,7 @@ class RegisterPatientTest extends TestCase
         Notification::fake();
         $this->seed(RolesSeeder::class);
 
-        $response = $this->postJson('/api/registerPatient', [
+        $response = $this->postJson('/api/register/patient', [
             'name'=> 'Federica',
             'password'=> '7488.Light',
             'email'=> 'federica@lightit.io',
@@ -44,7 +44,7 @@ class RegisterPatientTest extends TestCase
      **/
     public function test_empty_field_registration_user($user)
     {
-        $response = $this->postJson('/api/registerPatient', $user);
+        $response = $this->postJson('/api/register/patient', $user);
 
         $response->assertStatus(422);
         $this->assertDatabaseMissing('users', $user);
