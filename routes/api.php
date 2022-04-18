@@ -4,6 +4,7 @@ use App\Http\Controllers\AddSubmissionController;
 use App\Http\Controllers\DeleteSubmissionController;
 use App\Http\Controllers\DoctorRegistrationController;
 use App\Http\Controllers\EmailVerificationController;
+use App\Http\Controllers\GetOneSubmissionController;
 use App\Http\Controllers\GetSubmissionController;
 use App\Http\Controllers\LogInController;
 use App\Http\Controllers\LogOutController;
@@ -30,6 +31,7 @@ Route::post('/register/doctor', DoctorRegistrationController::class);
 Route::post('/register/patient', PatientRegistrationController::class);
 Route::post('/loginUser', LogInController::class);
 Route::delete('/submissions/{submission}/delete', DeleteSubmissionController::class);
+Route::get('/submissions/{submission}', GetOneSubmissionController::class);
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::post('/logoutUser', LogOutController::class);
