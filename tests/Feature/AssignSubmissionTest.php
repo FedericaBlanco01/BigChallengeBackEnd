@@ -20,10 +20,9 @@ class AssignSubmissionTest extends TestCase
         $user->assignRole(User::DOCTOR_ROLE);
         Sanctum::actingAs($user);
 
-        $submissions = Submission::factory()->create([
+        $submission = Submission::factory()->create([
             'status'=> Submission::PENDING_STATUS,
         ]);
-        $submission = $submissions->first();
 
         $response = $this->patchJson('/api/submissions/'.$submission->id.'/assign');
         $response->assertSuccessful();
