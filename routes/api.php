@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AddSubmissionController;
+use App\Http\Controllers\AssignSubmissionController;
 use App\Http\Controllers\DeleteSubmissionController;
 use App\Http\Controllers\DoctorRegistrationController;
 use App\Http\Controllers\EditSubmissionController;
@@ -39,6 +40,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/logoutUser', LogOutController::class);
     Route::post('/submissions/add', AddSubmissionController::class);
     Route::get('/submissions', GetSubmissionController::class);
+    Route::patch('/submissions/{submission}/assign', AssignSubmissionController::class);
 });
 Route::get('/email/verify/{id}/{hash}', EmailVerificationController::class)
     ->middleware(['auth:sanctum', 'signed'])
