@@ -11,7 +11,7 @@ class GetOneSubmissionController
     {
         return response()->json([
             'message' => 'Submission fetched succesfully!',
-            'submission'=> $submission->toArray(),
+            'submission'=> new \App\Http\Resources\SubmissionResource($submission),
         ]);
     }
 }
