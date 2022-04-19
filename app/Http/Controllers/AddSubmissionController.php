@@ -2,14 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\AddSubmissionRequest;
+use App\Http\Requests\SubmissionRequest;
 use App\Models\Submission;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
 
 class AddSubmissionController
 {
-    public function __invoke(AddSubmissionRequest $request): JsonResponse
+    public function __invoke(SubmissionRequest $request): JsonResponse
     {
         $submission = new Submission([
             'patient_id'=>Auth::user()->id,
