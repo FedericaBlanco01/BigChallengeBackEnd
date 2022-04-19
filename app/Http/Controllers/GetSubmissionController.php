@@ -34,7 +34,11 @@ class GetSubmissionController
             }
 
             return response()->json([
-                'submissions' => $submissions->where('status', 'pending')->get()->toArray(),
+                'submissions' => $submissions->where('status', Submission::PENDING_STATUS)
+                                            ->orWhere(function ($query) {
+                                                $query->where('doctor_id', Auth::user()->id)
+                                                    ->where('status', Submission::INPROGRESS_STATUS);
+                                            })->get()->toArray(),
                 'message' => 'Success! Got all the requested submissions',
             ]);
         }

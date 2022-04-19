@@ -66,6 +66,9 @@ class GetSubmissionTest extends TestCase
         $user = User::factory()->create();
         $user->assignRole(User::DOCTOR_ROLE);
 
+        $doctor2 = User::factory()->create();
+        $doctor2->assignRole(User::DOCTOR_ROLE);
+
         $patient = User::factory()->create();
         $patient->assignRole(User::PATIENT_ROLE);
 
@@ -79,6 +82,7 @@ class GetSubmissionTest extends TestCase
             [
             'patient_id'=>$patient->id,
             'status'=> Submission::INPROGRESS_STATUS,
+            'doctor_id'=>$doctor2->id,
             ]
         )->create();
 
