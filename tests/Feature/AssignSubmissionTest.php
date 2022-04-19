@@ -20,7 +20,7 @@ class AssignSubmissionTest extends TestCase
         $user->assignRole(User::DOCTOR_ROLE);
         Sanctum::actingAs($user);
 
-        $submissions = Submission::factory()->count(10)->create([
+        $submissions = Submission::factory()->create([
             'status'=> Submission::PENDING_STATUS,
         ]);
         $submission = $submissions->first();
