@@ -9,7 +9,7 @@ class GetOneSubmissionController
 {
     public function __invoke(Submission $submission): SubmissionResource
     {
-        return (new \App\Http\Resources\SubmissionResource($submission))
+        return (new \App\Http\Resources\SubmissionResource($submission->load('doctor', 'patient')))
                 ->additional(['message' => 'Submission fetched succesfully!']);
     }
 }
