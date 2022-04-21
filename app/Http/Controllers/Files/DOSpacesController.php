@@ -17,11 +17,14 @@ class DOSpacesController extends Controller
         $fileName = (string) Str::uuid();
         $folder = config('filesystems.disks.do.folder');
 
-        Storage::disk('do')->put(
+        Storage::put(
             "{$folder}/{$fileName}",
             file_get_contents($file)
         );
+
         $submission->status = Submission::DONE_STATUS;
+        $submission->file_path = $folder.'/'.$fileName;
+        $submission->save();
 
         return response()->json(['message' => 'File uploaded', 'name'=> $fileName], 200);
     }
