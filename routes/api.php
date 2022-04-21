@@ -6,6 +6,7 @@ use App\Http\Controllers\DeleteSubmissionController;
 use App\Http\Controllers\DoctorRegistrationController;
 use App\Http\Controllers\EditSubmissionController;
 use App\Http\Controllers\EmailVerificationController;
+use App\Http\Controllers\Files\DOSpacesController;
 use App\Http\Controllers\GetOneSubmissionController;
 use App\Http\Controllers\GetSubmissionController;
 use App\Http\Controllers\LogInController;
@@ -31,13 +32,15 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::post('/register/doctor', DoctorRegistrationController::class);
 Route::post('/register/patient', PatientRegistrationController::class);
-Route::post('/loginUser', LogInController::class);
+Route::post('/login', LogInController::class);
 Route::delete('/submissions/{submission}/delete', DeleteSubmissionController::class);
 Route::get('/submissions/{submission}', GetOneSubmissionController::class);
 Route::patch('/submissions/{submission}/update', EditSubmissionController::class);
 
+Route::post('/submissions/{submission}/upload/prescription', [DOSpacesController::class, 'store']);
+
 Route::middleware('auth:sanctum')->group(function () {
-    Route::post('/logoutUser', LogOutController::class);
+    Route::post('/logout', LogOutController::class);
     Route::post('/submissions/add', AddSubmissionController::class);
     Route::get('/submissions', GetSubmissionController::class);
     Route::patch('/submissions/{submission}/assign', AssignSubmissionController::class);
