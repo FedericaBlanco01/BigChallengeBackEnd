@@ -43,6 +43,36 @@ class EditSubmissionTest extends TestCase
         ]);
     }
 
+    public function test_doctor_edit_submission_unsuccessful()
+    {
+        $this->seed(RolesSeeder::class);
+        $user = User::factory()->create();
+        $user->assignRole(User::DOCTOR_ROLE);
+        $patient = User::factory()->create();
+        $patient->assignRole(User::PATIENT_ROLE);
+        Sanctum::actingAs($user);
+
+        $submission = Submission::factory()->create([
+            'patient_id'=>$patient->id,
+        ]);
+
+        $response = $this->patchJson('/api/submissions/'.$submission->id.'/update', [
+            'weight' => 60,
+            'height' => 173,
+            'observations' => 'diabetes type 1',
+            'symptoms' => 'headake, fatigue, runny nose',
+        ]);
+
+        $response->assertForbidden();
+
+        $this->assertDatabaseMissing('submissions', [
+            'weight' => 60,
+            'height' => 173,
+            'observations' => 'diabetes type 1',
+            'symptoms' => 'headake, fatigue, runny nose',
+        ]);
+    }
+
     /**
      * @dataProvider emptyFieldProvider
      **/

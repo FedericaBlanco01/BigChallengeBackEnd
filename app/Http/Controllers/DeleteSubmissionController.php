@@ -2,17 +2,17 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\DeleteSubmissionRequest;
 use App\Models\Submission;
-use Illuminate\Http\JsonResponse;
 
 class DeleteSubmissionController
 {
-    public function __invoke(Submission $submission): JsonResponse
+    public function __invoke(Submission $submission, DeleteSubmissionRequest $delete)
     {
         $submission->delete();
 
         return response()->json([
-            'message' => 'Submission succesfully deleted!',
-        ]);
+                'message' => 'Submission succesfully deleted!',
+            ]);
     }
 }
