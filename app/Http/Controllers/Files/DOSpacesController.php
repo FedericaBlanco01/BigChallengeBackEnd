@@ -26,6 +26,6 @@ class DOSpacesController extends Controller
         $submission->file_path = $folder.'/'.$fileName;
         $submission->save();
 
-        return response()->json(['message' => 'File uploaded', 'name'=> $fileName], 200);
+        return response()->json(['message' => 'File uploaded', 'name'=> $submission->file_path], 200);
     }
 }
