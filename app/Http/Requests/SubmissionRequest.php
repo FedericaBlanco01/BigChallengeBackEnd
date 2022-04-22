@@ -2,7 +2,6 @@
 
 namespace App\Http\Requests;
 
-use App\Models\Submission;
 use App\Models\User;
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -15,9 +14,6 @@ class SubmissionRequest extends FormRequest
      */
     public function authorize():bool
     {
-        /** @var Submission $submission */
-        $submission = $this->route('submission');
-
         return $this->user()->hasRole(User::PATIENT_ROLE);
     }
 
