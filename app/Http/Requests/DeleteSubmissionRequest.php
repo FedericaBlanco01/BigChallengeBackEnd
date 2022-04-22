@@ -6,14 +6,14 @@ use App\Models\Submission;
 use App\Models\User;
 use Illuminate\Foundation\Http\FormRequest;
 
-class SubmissionRequest extends FormRequest
+class DeleteSubmissionRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
      *
      * @return bool
      */
-    public function authorize():bool
+    public function authorize()
     {
         /** @var Submission $submission */
         $submission = $this->route('submission');
@@ -21,12 +21,15 @@ class SubmissionRequest extends FormRequest
         return $this->user()->hasRole(User::PATIENT_ROLE);
     }
 
-    public function rules(): array
+    /**
+     * Get the validation rules that apply to the request.
+     *
+     * @return array
+     */
+    public function rules()
     {
         return [
-            'weight' => 'required|numeric|digits_between:2,3',
-            'height' => 'required|numeric|digits:3',
-            'symptoms'=> 'required',
+            //
         ];
     }
 }
