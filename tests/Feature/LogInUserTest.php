@@ -16,7 +16,7 @@ class LogInUserTest extends TestCase
         $user = User::factory()->create([
             'password'=>Hash::make('7488.Light'), ]);
 
-        $response = $this->postJson('/api/loginUser', [
+        $response = $this->postJson('/api/login', [
             'password'=> '7488.Light',
             'email' =>  $user->email, ]);
 
@@ -29,7 +29,7 @@ class LogInUserTest extends TestCase
 
     public function test_login_user_notfound()
     {
-        $response = $this->postJson('/api/loginUser', [
+        $response = $this->postJson('/api/login', [
             'password'=> Hash::make('7488.Light'),
             'email' =>  'federica@lightit.io', ]);
 
@@ -48,7 +48,7 @@ class LogInUserTest extends TestCase
             'password'=>Hash::make('7488.Light'),
             'email'=> 'federica@lightit.io', ]);
 
-        $response = $this->postJson('/api/loginUser', $user);
+        $response = $this->postJson('/api/login', $user);
 
         $response->assertStatus(422);
         $this->assertDatabaseMissing('users', $user);
