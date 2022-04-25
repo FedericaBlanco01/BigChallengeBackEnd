@@ -38,6 +38,30 @@ class AddSubmissionTest extends TestCase
         ]);
     }
 
+    public function test_doctor_register_submission_unsuccessful()
+    {
+        $this->seed(RolesSeeder::class);
+        $user = User::factory()->create();
+        $user->assignRole(User::DOCTOR_ROLE);
+        Sanctum::actingAs($user);
+
+        $response = $this->postJson('/api/submissions/add', [
+            'weight' => 60,
+            'height' => 173,
+            'observations' => 'diabetes type 1',
+            'symptoms' => 'headake, fatigue, runny nose',
+        ]);
+
+        $response->assertForbidden();
+
+        $this->assertDatabaseMissing('submissions', [
+            'weight' => 60,
+            'height' => 173,
+            'observations' => 'diabetes type 1',
+            'symptoms' => 'headake, fatigue, runny nose',
+        ]);
+    }
+
     /**
      * @dataProvider emptyFieldProvider
      **/
