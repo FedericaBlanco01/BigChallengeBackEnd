@@ -34,7 +34,6 @@ Route::post('/register/patient', PatientRegistrationController::class);
 
 Route::post('/login', LogInController::class);
 
-
 Route::post('/submissions/{submission}/upload/prescription', [DOSpacesController::class, 'store']);
 
 Route::middleware('auth:sanctum')->group(function () {
