@@ -4,9 +4,11 @@ namespace Tests\Feature;
 
 use App\Models\Submission;
 use App\Models\User;
+use App\Notifications\PrescriptionUploaded;
 use Database\Seeders\RolesSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Storage;
 use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
@@ -30,7 +32,7 @@ class DOSpacesTest extends TestCase
             'doctor_id'=>$doctor->id,
             'status'=> Submission::INPROGRESS_STATUS,
         ]);
-
+        Notification::fake();
         Storage::fake('do');
 
         $response = $this->postJson('/api/submissions/'.$submission->id.'/upload/prescription', [
@@ -48,5 +50,9 @@ class DOSpacesTest extends TestCase
         ]);
         $submission->refresh();
         Storage::assertExists($submission->file_path);
+        Notification::assertSentTo(
+            [$patient],
+            PrescriptionUploaded::class
+        );
     }
 }
