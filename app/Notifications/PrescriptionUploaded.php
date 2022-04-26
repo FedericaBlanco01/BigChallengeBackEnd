@@ -2,6 +2,7 @@
 
 namespace App\Notifications;
 
+use App\Models\Submission;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
@@ -11,14 +12,16 @@ class PrescriptionUploaded extends Notification implements ShouldQueue
 {
     use Queueable;
 
+    public Submission $submission;
+
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct($submission)
     {
-        //
+        $this->submission = $submission;
     }
 
     /**
@@ -42,8 +45,8 @@ class PrescriptionUploaded extends Notification implements ShouldQueue
     {
         return (new MailMessage)
                     ->line('The doctor has uploaded a prescription!')
-                                                    // @TODO: remember url
-                    ->action('Dowload Prescription', url('/'))
+                    // @TODO: remember url
+                    ->action('Dowload Prescription', url('https://light-it-onboarding.sfo3.digitaloceanspaces.com/'.$this->submission->file_path))
                     ->line('Get well soon!');
     }
 }
