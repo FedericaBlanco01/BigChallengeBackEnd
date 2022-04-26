@@ -4,7 +4,7 @@ namespace Tests\Feature;
 
 use App\Models\Submission;
 use App\Models\User;
-use App\Notifications\Uploaded;
+use App\Notifications\PrescriptionUploaded;
 use Database\Seeders\RolesSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\UploadedFile;
@@ -52,7 +52,7 @@ class DOSpacesTest extends TestCase
         Storage::assertExists($submission->file_path);
         Notification::assertSentTo(
             [$patient],
-            Uploaded::class
+            PrescriptionUploaded::class
         );
     }
 }
