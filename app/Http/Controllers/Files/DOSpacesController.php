@@ -28,7 +28,7 @@ class DOSpacesController extends Controller
         $submission->save();
 
         $user = $submission->load('patient')->patient;
-        $user->notify(new PrescriptionUploaded());
+        $user->notify(new PrescriptionUploaded($submission));
 
         return response()->json(['message' => 'File uploaded', 'name'=> $submission->file_path], 200);
     }
