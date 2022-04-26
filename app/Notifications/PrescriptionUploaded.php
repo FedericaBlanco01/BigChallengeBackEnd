@@ -42,20 +42,8 @@ class PrescriptionUploaded extends Notification implements ShouldQueue
     {
         return (new MailMessage)
                     ->line('The doctor has uploaded a prescription!')
+                                                    // @TODO: remember url
                     ->action('Dowload Prescription', url('/'))
                     ->line('Get well soon!');
-    }
-
-    /**
-     * Get the array representation of the notification.
-     *
-     * @param  mixed  $notifiable
-     * @return array
-     */
-    public function toArray($notifiable)
-    {
-        return [
-            //
-        ];
     }
 }
