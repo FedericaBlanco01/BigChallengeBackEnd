@@ -3,7 +3,6 @@
 namespace Database\Seeders;
 
 use App\Models\Submission;
-use App\Models\User;
 use Illuminate\Database\Seeder;
 
 class SubmissionsSeeder extends Seeder
@@ -22,8 +21,7 @@ class SubmissionsSeeder extends Seeder
             'status' => Submission::INPROGRESS_STATUS,
         ]);
         Submission::factory()->count(8)->create([
-            'status' => "done",
+            'status' => 'done',
         ]);
-
     }
 }

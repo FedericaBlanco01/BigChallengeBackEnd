@@ -1,5 +1,4 @@
 <?php
-use App\Http\Controllers\LogInController;
 
 /*
 |--------------------------------------------------------------------------
@@ -11,4 +10,3 @@ use App\Http\Controllers\LogInController;
 | contains the "web" middleware group. Now create something great!
 |
 */
-

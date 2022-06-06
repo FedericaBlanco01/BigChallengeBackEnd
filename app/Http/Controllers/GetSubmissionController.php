@@ -46,5 +46,4 @@ class GetSubmissionController
             'message' => 'Success! Got all the requested submissions',
         ]);
     }
-
 }
