@@ -24,6 +24,8 @@ class LogInController
             'message' => 'User loggedIn successfully',
             'status' => 200,
             'token' => $user->createToken($request->input('email'))->plainTextToken,
+            'user' => $user,
+            'role'=> ($user->getRoleNames())[0],
         ]);
     }
 }

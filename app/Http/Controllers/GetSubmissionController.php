@@ -18,29 +18,33 @@ class GetSubmissionController
         $patient = $request->input('patient');
 
         $submissions = Submission::with(['doctor', 'patient']);
+        $submissions = $submissions->when($request->filled('status'), function ($query) use ($status, $user) {
+            $filterCondition = $user->hasRole(User::DOCTOR_ROLE) && $status !== Submission::PENDING_STATUS;
 
-        if ($user->hasRole(User::PATIENT_ROLE)) {
-            if ($request->filled('status')) {
-                $submissions = $submissions->where('status', $status);
+            $query->where('status', $status)
+                ->when($filterCondition, function ($query) {
+                    $query->where('doctor_id', Auth::user()->id);
+                });
+        }, function ($query) use ($user) {
+            if ($user->hasRole(User::DOCTOR_ROLE)) {
+                $query->where('status', Submission::PENDING_STATUS)
+                    ->orWhere(function ($query) {
+                        $query->where('doctor_id', Auth::user()->id)
+                            ->where('status', Submission::INPROGRESS_STATUS);
+                    });
             }
-
-            return response()->json([
-                'submissions' => $submissions->where('patient_id', $user->id)->get()->toArray(),
-                'message' => 'Success! Got all the requested submissions',
-            ]);
-        } else {
-            if (isset($patient)) {
-                $submissions = $submissions->where('patient_id', $patient);
+        })->when($user->hasRole(User::PATIENT_ROLE), function ($query) use ($user) {
+            $query->where('patient_id', $user->id);
+        }, function ($query) use ($patient) {
+            if ($patient) {
+                $query->where('patient_id', $patient);
             }
+        });
 
-            return response()->json([
-                'submissions' => $submissions->where('status', Submission::PENDING_STATUS)
-                                            ->orWhere(function ($query) {
-                                                $query->where('doctor_id', Auth::user()->id)
-                                                    ->where('status', Submission::INPROGRESS_STATUS);
-                                            })->get()->toArray(),
-                'message' => 'Success! Got all the requested submissions',
-            ]);
-        }
+        return response()->json([
+            'submissions' => $submissions->get()->toArray(),
+            'message' => 'Success! Got all the requested submissions',
+        ]);
     }
+
 }

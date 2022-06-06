@@ -23,13 +23,18 @@ class DOSpacesController extends Controller
             file_get_contents($file)
         );
 
+        $url = Storage::temporaryUrl(
+            "{$folder}/{$fileName}",
+            now()->addMinutes(40)
+        );
+
         $submission->status = Submission::DONE_STATUS;
-        $submission->file_path = $folder.'/'.$fileName;
+        $submission->file_path = $url;
         $submission->save();
 
         $user = $submission->load('patient')->patient;
         $user->notify(new PrescriptionUploaded($submission));
 
-        return response()->json(['message' => 'File uploaded', 'name'=> $submission->file_path], 200);
+        return response()->json(['message' => 'File uploaded', 'name'=> $submission->file_path, 'submission'=> $submission]);
     }
 }

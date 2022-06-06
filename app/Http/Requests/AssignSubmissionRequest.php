@@ -14,7 +14,7 @@ class AssignSubmissionRequest extends FormRequest
      */
     public function authorize()
     {
-        return $this->user()->hasRole(User::DOCTOR_ROLE);
+        return  $this->user()->hasRole(User::DOCTOR_ROLE);
     }
 
     /**

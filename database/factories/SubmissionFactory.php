@@ -18,8 +18,8 @@ class SubmissionFactory extends Factory
     public function definition()
     {
         return [
-            'patient_id' => User::factory(),
-            'doctor_id' => User::factory(),
+            'patient_id' => User::factory()->patient(),
+            'doctor_id' => User::factory()->doctor(),
             'weight' => $this->faker->numberBetween(40, 250),
             'height' => $this->faker->numberBetween(150, 210),
             'observations' => $this->faker->text(),

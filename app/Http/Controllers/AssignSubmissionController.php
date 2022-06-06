@@ -17,6 +17,7 @@ class AssignSubmissionController
 
         return response()->json([
             'message'=>'Submission succesfully assigned!',
+            'submission' => $submission,
         ]);
     }
 }

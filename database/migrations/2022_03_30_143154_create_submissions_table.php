@@ -19,7 +19,7 @@ return new class extends Migration {
             $table->integer('height');
             $table->string('observations');
             $table->string('symptoms');
-            $table->string('file_path');
+            $table->text('file_path');
             $table->string('status');
             $table->foreignId('patient_id')->constrained('users')->onDelete('cascade');
             $table->foreignId('doctor_id')->nullable()->constrained('users')->onDelete('cascade');
